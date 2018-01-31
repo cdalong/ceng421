@@ -5,3 +5,4 @@ imshow(rgbImage); % Show original image
 subplot(2, 1, 2);
 imshow(indexedImage, map); % Show posterized version
 colorbar;
+
