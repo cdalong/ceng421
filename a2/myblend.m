@@ -3,13 +3,13 @@ clear
 img1 = im2double(imread('apple.jpg'));
 img2 = im2double(imread('orange.jpg')); %we have to assume these are the same size
 [M, N, ~] = size(img1); % matrix sizes
-
+img1 = imresize(img1,[size(img2,1) size(img2,2)]);
 
 variable = 230;
-levels = 7;
+levels = 8;
 
-splinea = makePyramid(img1, 'lap', levels)
-splineb = makePyramid(img2, 'lap', levels)
+splinea = makePyramid(img1, 'lap', levels);
+splineb = makePyramid(img2, 'lap', levels);
 
 mask1 = zeros(size(img1));
 mask1(:,1:variable,:) = 1;
@@ -29,4 +29,4 @@ end
 imgo = stitch(limgo);
 figure,imshow(imgo) % blend by pyramid
 imgo1 = mask1.*img1+mask2.*img2;
-%figure,imshow(imgo1) % blend by feathering
+figure,imshow(imgo1) % blend by feathering

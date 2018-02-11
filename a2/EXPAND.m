@@ -1,7 +1,7 @@
 function [ imgout ] = EXPAND( img )
 
 kw = 5; % default kernel width
-cw = .375; 
+cw = .5; 
 ker1d = [.25-cw/2 .25 cw .25 .25-cw/2];
 kernel = kron(ker1d,ker1d')*4;
 
