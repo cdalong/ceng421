@@ -1,8 +1,7 @@
-function [ imgout ] = EXPAND( img )
+function [ imgout ] = EXPAND( img, alpha )
 
 kw = 5; % default kernel width
-cw = .5; 
-ker1d = [.25-cw/2 .25 cw .25 .25-cw/2];
+ker1d = [.25-alpha/2 .25 alpha .25 .25-alpha/2];
 kernel = kron(ker1d,ker1d')*4;
 
 % expand [a] to [A00 A01;A10 A11] with 4 kernels
