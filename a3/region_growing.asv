@@ -20,8 +20,6 @@
 %ooooooorrr we can use the peaks of the histogram this time?
 
 % or a random pixel from the thresholded regions?
-
-function [img] = region_growing(img)
 Thres1 = 110;
 Thres2 = 160;
 minimumchange = 1;
@@ -85,7 +83,5 @@ RegionThreshold = 10;
 
 neighborhood = [ -1 0 ; 1 0 ; 0 -1; 0 1]; % this is a 4- pixel neighborhood vector
 
-%we need to keep a memory of the pixels we've seen, how do we do that?
 
-end
 

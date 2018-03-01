@@ -7,5 +7,5 @@ img2 = preprocess(img);
 withoutskull = bsxfun(@times, img, cast(img2, class(img)));
 
 %imshow(withoutskull);
-double_thresholding(withoutskull)
-%region_growing(img)
+%double_thresholding(withoutskull)
+region_growing(img);
