@@ -23,6 +23,7 @@ biggest(ConnectedComponents.PixelIdxList{idx}) = 1;
 %imshow(biggest);
 
 img = biggest;
+end
 %This has removed the largest connected component, and set it to zero.
 %Now what? one asks
 

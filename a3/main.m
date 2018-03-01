@@ -1,6 +1,4 @@
 img =  imread('brain3.jpg');
-
-
 %remove the outer region boi
 img2 = preprocess(img);
 
@@ -8,7 +6,6 @@ img2 = preprocess(img);
 
 withoutskull = bsxfun(@times, img, cast(img2, class(img)));
 
-
-imshow(withoutskull);
-%double_thresholding(img) (withoutskull)
+%imshow(withoutskull);
+double_thresholding(withoutskull)
 %region_growing(img)
