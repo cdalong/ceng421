@@ -2,8 +2,8 @@
 
 close all
 clear
-img1 = im2double(imread('me1.jpg'));
-img2 = im2double(imread('me2.jpg')); 
+img1 = im2double(imread('apple.jpg'));
+img2 = im2double(imread('orange.jpg')); 
 num_levels = 4;
 alpha = 0.5;
 img1 = imresize(img1,[size(img2,1) size(img2,2)]);

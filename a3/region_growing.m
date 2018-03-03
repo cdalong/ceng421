@@ -48,44 +48,113 @@ end
 %let's make a starting min threshold of like, 10 I don't think things
 %differ that much
 
-seed1 = 0;
+% regions are binary operators.
+[M,N,~] = size(img);
 
-while seed1 < Thres1 && seed1 ~= 0
-idx = randperm(size(img, 1));
+group1flag = 0;
+group2flag= 0;
+group3flag = 0;
 
-seed1 = img(idx,:);
 
+while group1flag == 0 || group2flag == 0 || group3flag == 0
+
+seed1 = randi([1,M]);
+seed2 = randi([1,N]);
+
+
+if group1flag == 0 && group1(seed1, seed2) == 1
+    start1 = [seed1, seed2];
+    disp(start1);
+    group1flag = 1;
+    
 end
 
-seed2 = 0;
-while seed2 < Thres2 && seed2 ~= 0 && seed2 > Thres1
-idx = randperm(size(img, 1));
+if group2flag == 0 && group4(seed1, seed2) == 1
+    start2 = [seed1, seed2];
+    disp(start2);
 
-seed2 = img(idx,:);
-
+    group2flag = 1;
 end
 
-seed3 = 0;
+if group3flag == 0 && group3(seed1, seed2) == 1
+    start3 = [seed1, seed2];
+    disp(start3);
 
-while seed3 > Thres2 && seed3 ~= 0
-idx = randperm(size(img, 1));
-
-seed3 = img(idx,:);
-
+    group3flag = 1;
 end
 
+end
 %after some gross clone cloning, we have some seeds from the thresholds
+%from each region
 %(previous segments)
+RegionThreshold = 10;
+stack = java.util.Stack();
+startingarray = [start1, start2, start3];
+counter = 1; % #of pixels in group
+vectorsum = img(start1(1),start1(2));
+
+global regionmap; 
+global visited;
+visited = zeros(181, 271);
+regionmap = zeros(181, 271);
+stack.push(start1);
+groupavg = img(start1(1),start1(2));
+
+while ~stack.isEmpty()
+    workingpixel = stack.pop();
+    
+    disp(img(workingpixel(1), workingpixel(2)));
+    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
+       
+        pixel1 = [workingpixel(1) + 1, workingpixel(2)];
+        pixel2 = [workingpixel(1) - 1, workingpixel(2)];
+        pixel3 = [workingpixel(1), workingpixel(2) + 1];
+        pixel4 = [workingpixel(1), workingpixel(2) - 1]; 
+        
+        if visited(pixel1(1), pixel1(2)) == 0
+            
+        stack.push(pixel1);
+        visited(pixel1(1), pixel1(2)) = 1;
+        end
+        if visited(pixel2(1), pixel2(2)) == 0
+            
+        stack.push(pixel2);
+        visited(pixel2(1), pixel2(2)) = 1;
+        end
+         if visited(pixel3(1), pixel3(2)) == 0 
+        stack.push(pixel3);
+        visited(pixel3(1), pixel3(2)) = 1;
+         end
+         if visited(pixel4(1), pixel4(2)) == 0  
+        stack.push(pixel4);
+        visited(pixel4(1), pixel4(2)) = 1;
+         end
+        counter = counter + 1;
+        
+        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
+        
+        groupavg = vectorsum/counter;
+        
+        regionmap(workingpixel(1), workingpixel(2)) = 1;
+        
+    end
+end
+
+disp(regionmap);
+
+%for each starting pixel, do some region growing
 
 %check the regions, bro
 
-RegionThreshold = 10;
 
 %how do we define the neighborhood?
 
-neighborhood = [ -1 0 ; 1 0 ; 0 -1; 0 1]; % this is a 4- pixel neighborhood vector
+%neighborhood = [ -1 0 ; 1 0 ; 0 -1; 0 1]; % this is a 4- pixel neighborhood vector
 
 %we need to keep a memory of the pixels we've seen, how do we do that?
+
+%let's try a queue
+
 
 end
 
