@@ -98,8 +98,9 @@ global regionmap;
 global visited;
 visited = zeros(181, 271);
 regionmap = zeros(181, 271);
-stack.push(start3);
+stack.push(start1);
 groupavg = img(start3(1),start3(2));
+
 
 while ~stack.isEmpty()
     workingpixel = stack.pop();
@@ -197,7 +198,227 @@ while ~stack.isEmpty()
     end
 end
 
-disp(1);
+regionmap1 = regionmap;
+
+
+visited = zeros(181, 271);
+regionmap = zeros(181, 271);
+vectorsum = img(start2(1),start2(2));
+stack.push(start2);
+
+while ~stack.isEmpty()
+    workingpixel = stack.pop();
+    
+    %disp(img(workingpixel(1), workingpixel(2)));
+    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
+       
+        pixel1 = [workingpixel(1) + 1, workingpixel(2)];
+        pixel2 = [workingpixel(1) - 1, workingpixel(2)];
+        pixel3 = [workingpixel(1), workingpixel(2) + 1];
+        pixel4 = [workingpixel(1), workingpixel(2) - 1]; 
+        
+        if pixel1(1) == 0
+            pixel1(1) = pixel1(1) + 1;
+        end
+        
+        if pixel1(2) == 0
+            pixel1(2) = pixel1(2) + 1;
+        end
+        if pixel2(1) == 0
+            pixel2(1) = pixel2(1) + 1;
+        end
+        if pixel2(2) == 0
+            pixel2(2) = pixel2(2) + 1;
+        end
+        if pixel3(1) == 0
+            pixel3(1) = pixel3(1) + 1;
+        end
+        if pixel3(2) == 0
+            pixel3(2) = pixel3(2) + 1;
+        end
+        if pixel4(1) == 0
+            pixel4(1) = pixel4(1) + 1;
+        end
+        if pixel4(2) == 0
+            pixel4(2) = pixel4(2) + 1;
+        end
+        
+        
+         if pixel1(1) == 182
+            pixel1(1) = pixel1(1) - 1;
+        end
+        
+        if pixel1(2) == 218
+            pixel1(2) = pixel1(2) - 1;
+        end
+        if pixel2(1) == 182
+            pixel2(1) = pixel2(1) - 1;
+        end
+        if pixel2(2) == 218
+            pixel2(2) = pixel2(2) -1;
+        end
+        if pixel3(1) == 182
+            pixel3(1) = pixel3(1) - 1;
+        end
+        if pixel3(2) == 218
+            pixel3(2) = pixel3(2) - 1;
+        end
+        if pixel4(1) == 182
+            pixel4(1) = pixel4(1) - 1;
+        end
+        if pixel4(2) == 218
+            pixel4(2) = pixel(2) - 1;
+        end
+        
+        disp(pixel1(1));
+        disp(pixel1(2));
+        
+        if visited(pixel1(1), pixel1(2)) == 0
+            
+        stack.push(pixel1);
+        visited(pixel1(1), pixel1(2)) = 1;
+        end
+        if visited(pixel2(1), pixel2(2)) == 0
+            
+        stack.push(pixel2);
+        visited(pixel2(1), pixel2(2)) = 1;
+        end
+         if visited(pixel3(1), pixel3(2)) == 0 
+        stack.push(pixel3);
+        visited(pixel3(1), pixel3(2)) = 1;
+         end
+         if visited(pixel4(1), pixel4(2)) == 0  
+        stack.push(pixel4);
+        visited(pixel4(1), pixel4(2)) = 1;
+         end
+        counter = counter + 1;
+        
+        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
+        
+        groupavg = vectorsum/counter;
+        
+        regionmap(workingpixel(1), workingpixel(2)) = 1;
+        
+    end
+end
+
+regionmap2 = regionmap;
+
+
+visited = zeros(181, 271);
+regionmap = zeros(181, 271);
+vectorsum = img(start3(1),start3(2));
+stack.push(start3);
+
+while ~stack.isEmpty()
+    workingpixel = stack.pop();
+    
+    %disp(img(workingpixel(1), workingpixel(2)));
+    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
+       
+        pixel1 = [workingpixel(1) + 1, workingpixel(2)];
+        pixel2 = [workingpixel(1) - 1, workingpixel(2)];
+        pixel3 = [workingpixel(1), workingpixel(2) + 1];
+        pixel4 = [workingpixel(1), workingpixel(2) - 1]; 
+        
+        if pixel1(1) == 0
+            pixel1(1) = pixel1(1) + 1;
+        end
+        
+        if pixel1(2) == 0
+            pixel1(2) = pixel1(2) + 1;
+        end
+        if pixel2(1) == 0
+            pixel2(1) = pixel2(1) + 1;
+        end
+        if pixel2(2) == 0
+            pixel2(2) = pixel2(2) + 1;
+        end
+        if pixel3(1) == 0
+            pixel3(1) = pixel3(1) + 1;
+        end
+        if pixel3(2) == 0
+            pixel3(2) = pixel3(2) + 1;
+        end
+        if pixel4(1) == 0
+            pixel4(1) = pixel4(1) + 1;
+        end
+        if pixel4(2) == 0
+            pixel4(2) = pixel4(2) + 1;
+        end
+        
+        
+         if pixel1(1) == 182
+            pixel1(1) = pixel1(1) - 1;
+        end
+        
+        if pixel1(2) == 218
+            pixel1(2) = pixel1(2) - 1;
+        end
+        if pixel2(1) == 182
+            pixel2(1) = pixel2(1) - 1;
+        end
+        if pixel2(2) == 218
+            pixel2(2) = pixel2(2) -1;
+        end
+        if pixel3(1) == 182
+            pixel3(1) = pixel3(1) - 1;
+        end
+        if pixel3(2) == 218
+            pixel3(2) = pixel3(2) - 1;
+        end
+        if pixel4(1) == 182
+            pixel4(1) = pixel4(1) - 1;
+        end
+        if pixel4(2) == 218
+            pixel4(2) = pixel(2) - 1;
+        end
+        
+        disp(pixel1(1));
+        disp(pixel1(2));
+        
+        if visited(pixel1(1), pixel1(2)) == 0
+            
+        stack.push(pixel1);
+        visited(pixel1(1), pixel1(2)) = 1;
+        end
+        if visited(pixel2(1), pixel2(2)) == 0
+            
+        stack.push(pixel2);
+        visited(pixel2(1), pixel2(2)) = 1;
+        end
+         if visited(pixel3(1), pixel3(2)) == 0 
+        stack.push(pixel3);
+        visited(pixel3(1), pixel3(2)) = 1;
+         end
+         if visited(pixel4(1), pixel4(2)) == 0  
+        stack.push(pixel4);
+        visited(pixel4(1), pixel4(2)) = 1;
+         end
+        counter = counter + 1;
+        
+        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
+        
+        groupavg = vectorsum/counter;
+        
+        regionmap(workingpixel(1), workingpixel(2)) = 1;
+        
+    end
+end
+
+regionmap3 = regionmap;
+
+
+concat = cat(3, regionmap1, regionmap2, regionmap3);
+
+
+
+disp(concat);
+
+
+I = mat2gray(concat);
+
+imshow(I);
 %for each starting pixel, do some region growing
 
 %check the regions, bro
