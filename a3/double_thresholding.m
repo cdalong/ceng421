@@ -17,8 +17,8 @@ function [img] = double_thresholding(img)
 %imshow(img);
 %hist = imhist(img);
 %plot(hist);
-Thres1 = 110;
-Thres2 = 160;
+Thres1 = 90;
+Thres2 = 110;
 minimumchange = 1;
 
 Thres1new = 4234;

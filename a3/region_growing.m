@@ -22,91 +22,79 @@
 % or a random pixel from the thresholded regions?
 
 function [img] = region_growing(img)
-Thres1 = 110;
-Thres2 = 160;
-minimumchange = 1;
-
-Thres1new = 4234;
-Thres2new = 345435;
-while (Thres1new - Thres1 > minimumchange && Thres2new - Thres2 > minimumchange)
-group1 = img <= Thres1;
-group2 = img > Thres1;
-group4 = group2 < Thres2;
-group3 = img > Thres2;
-
-mean1 = mean(img(group1));
-mean2 = mean(img(group4));
-mean3 = mean(img(group3));
-
-Thres1new = (mean1 + mean2)/2;
-Thres2new = (mean2 + mean3)/2;
-
-Thres1 = Thres1new;
-Thres2 = Thres2new;
-end
 %okay, now we have seed intensities. Now what?
 %let's make a starting min threshold of like, 10 I don't think things
 %differ that much
-
 % regions are binary operators.
-[M,N,~] = size(img);
 
+thresh = multithresh(img, 3);
+
+seg_I = imquantize(img, thresh); % values from 1 - 4
+%RGB = label2rgb(seg_I); 	 
+figure;
+%imshow(RGB)
+
+[M,N,~] = size(img);
 group1flag = 0;
 group2flag= 0;
 group3flag = 0;
+group4flag = 0;
 
 
-while group1flag == 0 || group2flag == 0 || group3flag == 0
+while group1flag == 0 || group2flag == 0 || group3flag == 0 || group4flag ==0
 
 seed1 = randi([1,M]);
 seed2 = randi([1,N]);
 
 
-if group1flag == 0 && group1(seed1, seed2) == 1
+if group1flag == 0 && seg_I(seed1, seed2) == 1
     start1 = [seed1, seed2];
     disp(start1);
     group1flag = 1;
     
 end
 
-if group2flag == 0 && group4(seed1, seed2) == 1
+if group2flag == 0 && seg_I(seed1, seed2) == 2
     start2 = [seed1, seed2];
     disp(start2);
 
     group2flag = 1;
 end
 
-if group3flag == 0 && group3(seed1, seed2) == 1
+if group3flag == 0 && seg_I(seed1, seed2) == 3
     start3 = [seed1, seed2];
     disp(start3);
 
     group3flag = 1;
 end
 
+if group4flag == 0 && seg_I(seed1, seed2) == 4
+    start4 = [seed1, seed2];
+    disp(start4);
+    group4flag = 1;
+    
 end
-%after some gross clone cloning, we have some seeds from the thresholds
-%from each region
-%(previous segments)
-RegionThreshold = 10;
-stack = java.util.Stack();
 
-startingarray = [start1, start2, start3];
+end
+
+
+
+function [regionmap] = grow(regionmap, RegionThreshold, image, start, groupnumber)
+    
+vectorsum = image(start(1),start(2));
 counter = 1; % #of pixels in group
-vectorsum = img(start1(1),start1(2));
-
-global regionmap; 
-global visited;
-visited = zeros(181, 271);
-regionmap = zeros(181, 271);
-stack.push(start1);
-groupavg = img(start3(1),start3(2));
-
-
+stack = java.util.Stack();
+stack.push(start);
+visited = zeros(181, 217);
+groupavg = image(start(1),start(2));
 while ~stack.isEmpty()
     workingpixel = stack.pop();
     
-    %disp(img(workingpixel(1), workingpixel(2)));
-    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
+    variable = image(workingpixel(1), workingpixel(2));
+    
+    %disp(variable);
+    
+    if abs(image(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
        
         pixel1 = [workingpixel(1) + 1, workingpixel(2)];
         pixel2 = [workingpixel(1) - 1, workingpixel(2)];
@@ -166,8 +154,7 @@ while ~stack.isEmpty()
             pixel4(2) = pixel(2) - 1;
         end
         
-        disp(pixel1(1));
-        disp(pixel1(2));
+      
         
         if visited(pixel1(1), pixel1(2)) == 0
             
@@ -189,234 +176,39 @@ while ~stack.isEmpty()
          end
         counter = counter + 1;
         
-        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
+        vectorsum = vectorsum + image(workingpixel(1), workingpixel(2));
         
         groupavg = vectorsum/counter;
         
-        regionmap(workingpixel(1), workingpixel(2)) = 1;
+        regionmap(workingpixel(1), workingpixel(2)) = groupnumber;
         
     end
 end
 
-regionmap1 = regionmap;
-
-
-visited = zeros(181, 271);
-regionmap = zeros(181, 271);
-vectorsum = img(start2(1),start2(2));
-stack.push(start2);
-
-while ~stack.isEmpty()
-    workingpixel = stack.pop();
-    
-    %disp(img(workingpixel(1), workingpixel(2)));
-    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
-       
-        pixel1 = [workingpixel(1) + 1, workingpixel(2)];
-        pixel2 = [workingpixel(1) - 1, workingpixel(2)];
-        pixel3 = [workingpixel(1), workingpixel(2) + 1];
-        pixel4 = [workingpixel(1), workingpixel(2) - 1]; 
-        
-        if pixel1(1) == 0
-            pixel1(1) = pixel1(1) + 1;
-        end
-        
-        if pixel1(2) == 0
-            pixel1(2) = pixel1(2) + 1;
-        end
-        if pixel2(1) == 0
-            pixel2(1) = pixel2(1) + 1;
-        end
-        if pixel2(2) == 0
-            pixel2(2) = pixel2(2) + 1;
-        end
-        if pixel3(1) == 0
-            pixel3(1) = pixel3(1) + 1;
-        end
-        if pixel3(2) == 0
-            pixel3(2) = pixel3(2) + 1;
-        end
-        if pixel4(1) == 0
-            pixel4(1) = pixel4(1) + 1;
-        end
-        if pixel4(2) == 0
-            pixel4(2) = pixel4(2) + 1;
-        end
-        
-        
-         if pixel1(1) == 182
-            pixel1(1) = pixel1(1) - 1;
-        end
-        
-        if pixel1(2) == 218
-            pixel1(2) = pixel1(2) - 1;
-        end
-        if pixel2(1) == 182
-            pixel2(1) = pixel2(1) - 1;
-        end
-        if pixel2(2) == 218
-            pixel2(2) = pixel2(2) -1;
-        end
-        if pixel3(1) == 182
-            pixel3(1) = pixel3(1) - 1;
-        end
-        if pixel3(2) == 218
-            pixel3(2) = pixel3(2) - 1;
-        end
-        if pixel4(1) == 182
-            pixel4(1) = pixel4(1) - 1;
-        end
-        if pixel4(2) == 218
-            pixel4(2) = pixel(2) - 1;
-        end
-        
-        disp(pixel1(1));
-        disp(pixel1(2));
-        
-        if visited(pixel1(1), pixel1(2)) == 0
-            
-        stack.push(pixel1);
-        visited(pixel1(1), pixel1(2)) = 1;
-        end
-        if visited(pixel2(1), pixel2(2)) == 0
-            
-        stack.push(pixel2);
-        visited(pixel2(1), pixel2(2)) = 1;
-        end
-         if visited(pixel3(1), pixel3(2)) == 0 
-        stack.push(pixel3);
-        visited(pixel3(1), pixel3(2)) = 1;
-         end
-         if visited(pixel4(1), pixel4(2)) == 0  
-        stack.push(pixel4);
-        visited(pixel4(1), pixel4(2)) = 1;
-         end
-        counter = counter + 1;
-        
-        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
-        
-        groupavg = vectorsum/counter;
-        
-        regionmap(workingpixel(1), workingpixel(2)) = 1;
-        
     end
-end
 
-regionmap2 = regionmap;
+regionmap1 = zeros(181, 217);
+regionmap2 = zeros(181, 217);
+regionmap3 = zeros(181, 217);% should make this M,N at some point in case sizes change
+regionmap4 = zeros(181, 217);
 
+RegionThreshold = 60;
 
-visited = zeros(181, 271);
-regionmap = zeros(181, 271);
-vectorsum = img(start3(1),start3(2));
-stack.push(start3);
-
-while ~stack.isEmpty()
-    workingpixel = stack.pop();
-    
-    %disp(img(workingpixel(1), workingpixel(2)));
-    if abs(img(workingpixel(1), workingpixel(2)) - groupavg) <= RegionThreshold % in region
-       
-        pixel1 = [workingpixel(1) + 1, workingpixel(2)];
-        pixel2 = [workingpixel(1) - 1, workingpixel(2)];
-        pixel3 = [workingpixel(1), workingpixel(2) + 1];
-        pixel4 = [workingpixel(1), workingpixel(2) - 1]; 
-        
-        if pixel1(1) == 0
-            pixel1(1) = pixel1(1) + 1;
-        end
-        
-        if pixel1(2) == 0
-            pixel1(2) = pixel1(2) + 1;
-        end
-        if pixel2(1) == 0
-            pixel2(1) = pixel2(1) + 1;
-        end
-        if pixel2(2) == 0
-            pixel2(2) = pixel2(2) + 1;
-        end
-        if pixel3(1) == 0
-            pixel3(1) = pixel3(1) + 1;
-        end
-        if pixel3(2) == 0
-            pixel3(2) = pixel3(2) + 1;
-        end
-        if pixel4(1) == 0
-            pixel4(1) = pixel4(1) + 1;
-        end
-        if pixel4(2) == 0
-            pixel4(2) = pixel4(2) + 1;
-        end
-        
-        
-         if pixel1(1) == 182
-            pixel1(1) = pixel1(1) - 1;
-        end
-        
-        if pixel1(2) == 218
-            pixel1(2) = pixel1(2) - 1;
-        end
-        if pixel2(1) == 182
-            pixel2(1) = pixel2(1) - 1;
-        end
-        if pixel2(2) == 218
-            pixel2(2) = pixel2(2) -1;
-        end
-        if pixel3(1) == 182
-            pixel3(1) = pixel3(1) - 1;
-        end
-        if pixel3(2) == 218
-            pixel3(2) = pixel3(2) - 1;
-        end
-        if pixel4(1) == 182
-            pixel4(1) = pixel4(1) - 1;
-        end
-        if pixel4(2) == 218
-            pixel4(2) = pixel(2) - 1;
-        end
-        
-        disp(pixel1(1));
-        disp(pixel1(2));
-        
-        if visited(pixel1(1), pixel1(2)) == 0
-            
-        stack.push(pixel1);
-        visited(pixel1(1), pixel1(2)) = 1;
-        end
-        if visited(pixel2(1), pixel2(2)) == 0
-            
-        stack.push(pixel2);
-        visited(pixel2(1), pixel2(2)) = 1;
-        end
-         if visited(pixel3(1), pixel3(2)) == 0 
-        stack.push(pixel3);
-        visited(pixel3(1), pixel3(2)) = 1;
-         end
-         if visited(pixel4(1), pixel4(2)) == 0  
-        stack.push(pixel4);
-        visited(pixel4(1), pixel4(2)) = 1;
-         end
-        counter = counter + 1;
-        
-        vectorsum = vectorsum + img(workingpixel(1), workingpixel(2));
-        
-        groupavg = vectorsum/counter;
-        
-        regionmap(workingpixel(1), workingpixel(2)) = 1;
-        
-    end
-end
-
-regionmap3 = regionmap;
+regionmap1 = grow(regionmap1, RegionThreshold, img, start1, 1);
+regionmap2 = grow(regionmap2, RegionThreshold, img, start2, 1);
+regionmap3 = grow(regionmap3, RegionThreshold, img, start3, 1);
+regionmap4 = grow(regionmap4, RegionThreshold, img, start4, 1);
 
 
-concat = cat(3, regionmap1, regionmap2, regionmap3);
+concat = cat(3, regionmap1, regionmap2, regionmap3, regionmap4);
 
 
 
 disp(concat);
+thresh = multithresh(concat, 3);
+segments = imquantize(thresh);
 
-
-I = mat2gray(concat);
+I = label2rgb(segments);
 
 imshow(I);
 %for each starting pixel, do some region growing
