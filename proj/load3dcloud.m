@@ -39,4 +39,15 @@ quiver3(x,y,z,u,v,w);
 % give you the freature space.
 % use pdist for the Euclidean distance
 
+%once we have the set of features, as compute from above then
+%Use the formula from 4) to do the FPFH of a given point.
+
+
+%Once we have a working FPFH, do some persistence analysis. This analysis
+%looks at points that haven't changed when you vary the radius of the
+%k-neighbours part
+
+%At the end, they look at noisy datasets. Try that too?
+
+
 
