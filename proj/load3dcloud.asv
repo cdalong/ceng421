@@ -46,12 +46,11 @@ Pnz = ptCloud.Location(index, 3);
 
 Pj = [Pnx, Pny, Pnz];
 
-Ni = [normals(index,1), normals(index,2), normals(index,3)];
+Nj = [normals(index,1), normals(index,2), normals(index,3)];
 
-[u, v, w] = darboux_frame(P, Pj, Ni);
+[u, v, w] = darboux_frame(P, Pj, Nj);
 
-%this could be (is) wrong
-[alpha, phi, theta] = angular_variations(u , v ,w ,Ni, P, Pj);
+[alpha, phi, theta] = angular_variations(u , v ,w ,Nj
 
 
 %for every pair of points in the redius (they have to be different)
