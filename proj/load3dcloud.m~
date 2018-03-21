@@ -48,15 +48,17 @@ for n = 1:length(indices)
 end
 
 
+
+avg = zeros(1, 16);
 hist2 = zeros(1,16);
 
-%avg = bin_values(features, 0.0050);
+avg = bin_values(features, 0.0050);
 
-%[N,edges] = histcounts(avg, 16);
+[N,edges] = histcounts(avg, 16);
 
 
-%figure;
-%bar(avg);
+figure;
+bar(avg);
 
 %for every pair of points in the redius (they have to be different)
 % 1.Take their estimated normals, ni and nj
