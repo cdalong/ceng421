@@ -15,8 +15,8 @@ in local plane fitting
 
 normals = pcnormals(ptCloud);
 
-figure
-pcshow(ptCloud); % well that was easy
+%figure
+%pcshow(ptCloud); % well that was easy
 x = ptCloud.Location(1:end,1);
 y = ptCloud.Location(1:end,2);
 z = ptCloud.Location(1:end,3);
@@ -60,6 +60,16 @@ for n = 1:length(combos)
     
 end
 
+hist = zeros(1, 16);
+hist2 = zeros(1,16);
+
+hist = bin_values(features, 0.0050);
+
+[N,edges] = histcounts(hist, 16);
+
+
+figure;
+bar(hist);
 
 %for every pair of points in the redius (they have to be different)
 % 1.Take their estimated normals, ni and nj
