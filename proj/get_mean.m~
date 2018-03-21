@@ -1,8 +1,8 @@
-function [meanhist] = get_mean_hist(avg)
+function [meanvals] = get_mean(avg)
 %GET_MEAN_HIST Summary of this function goes here
 %   Detailed explanation goes here
 
-meanhist = [];
+meanvals = [];
 sums = [];
 percentages = zeros(size(avg, 1),size(avg, 2));
 %have to calculate sum values first
@@ -35,13 +35,16 @@ for k = 1:size(avg, 1)
         
     %row operations    
     
-    percentages(k,l) = (avg(k,l)/sums(k)) * 100;
+    percentages(k,l) = avg(k,l)/sums(k);
+    
+    
     
     end
-        
+    
+    sums = [sums;sum];   
+    
 end
 
-meanhist = mean(percentages);
 
 end
 
