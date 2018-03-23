@@ -1,4 +1,4 @@
-function [hist] = compute_features(point, ptCloud, normals)
+function [hist] = compute_features(point, ptCloud, normals, radius)
 %COMPUTE_FEATURES Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,11 +8,11 @@ pointz = ptCloud.Location(point,3);
 
 P = [pointx, pointy, pointz];
 
-[indices,dists] = findNeighborsInRadius(ptCloud,P,0.0050);
+[indices,dists] = findNeighborsInRadius(ptCloud,P,radius);
 combos = nchoosek(indices, 2);
 
 features = zeros(length(combos), 4);
-for n = 1:length(combos)
+for n = 1:size(combos,1) %returns longest length. if not it errors
 
     p1 = [ptCloud.Location(combos(n,1),1) , ptCloud.Location(combos(n,1),2), ptCloud.Location(combos(n,1),3) ];
     p2 = [ptCloud.Location(combos(n,2),1) , ptCloud.Location(combos(n,2),2), ptCloud.Location(combos(n,2),3) ];
@@ -32,7 +32,7 @@ for n = 1:length(combos)
     
 end
 
-hist = bin_values(features, 0.0050);
+hist = bin_values(features, radius);
 
 
 

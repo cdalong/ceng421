@@ -11,10 +11,15 @@ for n = 1:length(features)
     si = 0; %can change for bins
     s2 = radius;
     
+    try
     f1 = features(n,1);
     f2 = features(n,2);
     f3 = features(n,3);
     f4 = features(n,4);
+    catch exception
+        disp(features);
+        disp(exception);
+    end
     
     if f1 > si
     
