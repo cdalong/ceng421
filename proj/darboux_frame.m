@@ -28,9 +28,6 @@ u = normalsource;
 v = cross((target - source), u);
 w = cross(u,v);
 
-disp(u);
-disp(v);
-disp(w);
 
 end
 
