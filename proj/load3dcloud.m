@@ -1,4 +1,15 @@
-ptCloud = pcread("./bunny/data/bun000.ply");
+files = dir('./bunny/data/*.ply');
+
+meanhists = [];
+std_bins =[];
+for clouds = 1:length(files)
+
+currentfilename = files(clouds).name;    
+currentfilepath = files(clouds).folder;
+
+filetoread = strcat(currentfilepath, '\', currentfilename);
+    
+ptCloud = pcread(filetoread);
 
 
 %estimate the surface normals of the point cloud?
@@ -64,9 +75,13 @@ end
 
 meanhist = get_mean_hist(avg);
 
-std_bins = std(avg);
+meanhists = [meanhists; meanhist];
 
-%bar(meanhist);
+std_bin = std(avg);
+
+std_bins= [std_bins; std_bin];
+
+%bar(mestd_anhist);
 
 %for every pair of points in the redius (they have to be different)
 % 1.Take their estimated normals, ni and nj
@@ -86,5 +101,5 @@ std_bins = std(avg);
 
 %At the end, they look at noisy datasets. Try that too?
 
-
+end
 
