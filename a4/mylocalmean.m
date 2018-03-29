@@ -1,4 +1,4 @@
-function [mean] = mylocalmean(f,nhood)
+function [mean, stdev] = mylocalmean(f,nhood)
 %MYLOCALMEAN Summary of this function goes here
 %nhood is the neighborhood (same way as stdfilt)
 %   Detailed explanation goes here
@@ -38,6 +38,6 @@ end
 
 
 mean = localmeans;
-
+stdev = localstdev;
 end
 

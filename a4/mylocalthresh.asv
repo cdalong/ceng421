@@ -7,7 +7,7 @@ function [g] = mylocalthresh(f, nhood, a,b, meantype)
 % do the equation here
 
 
-
+imshow(f);
 
 [height, width] = size(f);
 
@@ -18,11 +18,15 @@ if strcmp(meantype, 'global')
 meancmp = mean2(f);
 stdev = std2(f);
 
-imshow(f);
-
-for i = 1:height
+for i = 1:size(f,1)
     
-    for j = 1:width
+    for j = size(f,2)
+        
+      
+        if f(i,j) > 8
+            
+            disp(f(i,j))
+        end
         
 
         if f(i,j) > a * stdev && f(i,j) > b * meancmp
@@ -42,13 +46,16 @@ if strcmp(meantype, 'local')
 
 [meancmp, stdev] = mylocalmean(f, nhood);
 
-for k = 1:size(f,1)
+for i = 1:size(f,1)
     
-    for p = 1:size(f,2)
- 
+    for j = size(f,2)
+        
+        disp(f(i,j));
+        disp(stdev(i,j));
+        disp(meancmp(i,j));
 
-        if f(k,p) > a * stdev(k,p) && f(k,p) > b * meancmp(k,p) 
-            output(k,p) = 1;
+        if f(i,j) > a * stdev(i,j) && f(i,j) > b * meancmp(i,j) 
+            output(i,j) = 1;
         end
         
         
