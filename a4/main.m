@@ -1,8 +1,8 @@
 img = imread('nuclei.tif');
 nhood = ones(3);
 f = img;
-a = 3;
-b = 1.5;
+a = 4;
+b = 3;
 
 output1 = mylocalthresh(f, nhood, a, b, 'local');
 output2 = mylocalthresh(f, nhood, a, b, 'global');

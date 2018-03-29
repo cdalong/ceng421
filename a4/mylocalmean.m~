@@ -29,7 +29,7 @@ for i = padding:height
        neighbors = [];
        neighbors = [img(i+1,j); img(i-1,j); img(i,j+1); img(i,j-1);img(i,j)];
        %pixel = [i,j];
-       avg = (img(i+1,j) + img(i-1,j) + img(i,j+1) + img(i,j-1) + img(i-1,j-1) + img(i + 1, j - 1) + img(i - 1,j +1) + img(i-1 ,j + 1) + img(i, j-1) +img(i,j))/9;
+       avg = (img(i+1,j) + img(i-1,j) + img(i,j+1) + img(i,j-1) + img(i-1,j-1), img(i ,j) ,img(i,j), img(i,j), img(i,j) )/5;
       
        
        %neighbors = getneighbors(pixel, nhood, img, height, width);
