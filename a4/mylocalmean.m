@@ -21,15 +21,20 @@ localmeans = zeros(height, width);
 localstdev = zeros(height, width);
 
 
+
 for i = padding:height
     
    for j = padding:width
        
-  
-       pixel = [i,j];
-       neighbors = getneighbors(pixel, nhood, img, height, width);
+       neighbors = [];
+       neighbors = [img(i+1,j); img(i-1,j); img(i,j+1); img(i,j-1);img(i,j)];
+       %pixel = [i,j];
+       avg = (img(i+1,j) + img(i-1,j) + img(i,j+1) + img(i,j-1) + img(i,j))/5;
+      
+       
+       %neighbors = getneighbors(pixel, nhood, img, height, width);
        localstdev(i - padding + 1,j - padding + 1) = std2(neighbors);
-       localmeans(i - padding + 1,j - padding + 1) = mean2(neighbors);
+       localmeans(i - padding + 1,j - padding + 1) = avg;
        
      
    end

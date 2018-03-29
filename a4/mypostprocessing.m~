@@ -1,0 +1,27 @@
+function [h] = mypostprocessing(g, morphtype)
+%MYPOSTPROCESSING Summary of this function goes here
+%   Detailed explanation goes here
+
+
+if strcmp(morphtype, 'dilate')
+    
+end
+
+if strcmp(morphtype, 'ero')
+    
+end
+
+if strcmp(morphtype, 'dilate')
+    
+end
+
+if strcmp(morphtype, 'dilate')
+    
+end
+
+
+
+
+h = g;
+end
+

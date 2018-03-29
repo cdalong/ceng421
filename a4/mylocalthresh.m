@@ -18,7 +18,6 @@ if strcmp(meantype, 'global')
 meancmp = mean2(f);
 stdev = std2(f);
 
-imshow(f);
 
 for i = 1:height
     
