@@ -23,6 +23,11 @@ for n = 1:size(combos,1) %returns longest length. if not it errors
     
     [u,v,w, target, source, normaltarget] = darboux_frame(p1, p2, n1, n2);
     
+    
+  
+    
+    
+    
     [f1, f2, f3, f4] = angular_variations(u ,v, w, target, source, normaltarget);
     
     features(n, 1) = f1;

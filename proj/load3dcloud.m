@@ -2,14 +2,14 @@ files = dir('./bunny/data/*.ply');
 
 meanhists = [];
 std_bins =[];
-for clouds = 1:length(files)
 
-currentfilename = files(clouds).name;    
-currentfilepath = files(clouds).folder;
 
-filetoread = strcat(currentfilepath, '\', currentfilename);
+%currentfilename = files(clouds).name;    
+%currentfilepath = files(clouds).folder;
+
+%filetoread = strcat(currentfilepath, '\', currentfilename);
     
-ptCloud = pcread(filetoread);
+ptCloud = pcread("./bunny/data/bun000.ply");
 
 
 %estimate the surface normals of the point cloud?
@@ -25,7 +25,8 @@ in local plane fitting
 %}
 
 normals = pcnormals(ptCloud);
-
+normalsgpu = gpuArray(normals);
+ptCloudgpu = gpuArray(ptCloud.Location);
 %{
 
 %figure
@@ -40,15 +41,12 @@ w = normals(1:end,3);
 
 %}
 
-radius = 0.003;
+radius = 0.001;
 
 parfor point = 1:ptCloud.Count
     
-pointx  = ptCloud.Location(point,1);
-pointy = ptCloud.Location(point,2); 
-pointz = ptCloud.Location(point,3);
 
-P = [pointx, pointy, pointz];
+P = [ptCloud.Location(point,1), ptCloud.Location(point,2),ptCloud.Location(point,3)];
 disp(point);
 
 %we have surface normals, now we need the "Darboux uvn frame"
@@ -58,8 +56,9 @@ disp(point);
 
 for n = 1:length(indices)
 
-    hist = compute_features(indices(n), ptCloud, normals, radius);
-    
+    hist = compute_featuresgpu(indices(n), ptCloud, ptCloudgpu, normals, radius);
+    hist = gather(hist);
+
     avg = [avg; hist];
 
 end
@@ -79,7 +78,7 @@ meanhists = [meanhists; meanhist];
 
 std_bin = std(avg);
 
-std_bins= [std_bins; std_bin];
+std_bins = [std_bins; std_bin];
 
 %bar(mestd_anhist);
 
@@ -101,5 +100,5 @@ std_bins= [std_bins; std_bin];
 
 %At the end, they look at noisy datasets. Try that too?
 
-end
+
 
