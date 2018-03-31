@@ -1,0 +1,15 @@
+function [outputArg1,outputArg2] = persistant_values(globalmeanhist,localhist, radius, histogrammap,  )
+%PERSISTANT_VALUES Summary of this function goes here
+%   Detailed explanation goes here
+
+javamap = java.util.HashMap();
+uniquemap = java.util.HashMap();
+alpha = 1;
+
+
+
+
+outputArg1 = globalmeanhist;
+outputArg2 = inputArg2;
+end
+

@@ -54,11 +54,11 @@ for point = 1:size(keySet)
     
     keypointhist = javamap.get(point);
     
-    isUnique = man_dist(meanhist, std_bins, keypointhist, alpha, 'man');
+    isUnique = man_dist(meanhist, std_bins, keypointhist, alpha);
     
     if isUnique 
        
-      uniquemap.put(point, point); 
+      uniquemap.put( 
     end
 end
 
