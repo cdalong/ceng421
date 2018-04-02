@@ -1,0 +1,13 @@
+
+3dvalues = [];
+values = [];
+
+for point = 1:size(C)
+   
+  values = ptCloud.Location(C(point));
+   
+   3dvalues = 
+    
+end
+
+

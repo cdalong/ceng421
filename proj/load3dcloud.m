@@ -5,7 +5,7 @@
 
 %filetoread = strcat(currentfilepath, '\', currentfilename);
     
-ptCloud = pcread("./drill/data/drill_1.6mm_0_cyb.ply");
+ptCloud = pcread("./drill/data/drill_1.6mm_330_cyb.ply");
 radius = 0.00055;
 
 [uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'man');

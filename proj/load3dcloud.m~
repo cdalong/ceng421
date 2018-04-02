@@ -5,8 +5,9 @@
 
 %filetoread = strcat(currentfilepath, '\', currentfilename);
     
-ptCloud = pcread("./drill/data/drill_1.6mm_0_cyb.ply");
+ptCloud = pcread("./drill/data/drill_1.6mm_330_cyb.ply");
 radius = 0.00055;
+
 [uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'man');
 
 
@@ -18,8 +19,8 @@ radius = 0.00055;
 
 
 vals1 = get_persistant_features(distances, uniquevals,1.0);
-vals1 = get_persistant_features(distances, uniquevals,1.0);
-vals1 = get_persistant_features(distances, uniquevals,1.0);
+vals2 = get_persistant_features(distances2, uniquevals2,1.0);
+vals3 = get_persistant_features(distances3, uniquevals3,1.0);
 
 
 
