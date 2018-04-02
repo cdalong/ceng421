@@ -1,6 +1,4 @@
 
-globalmeanhists = [];
-globalstddev =[];
 
 %currentfilename = files(clouds).name;    
 %currentfilepath = files(clouds).folder;
@@ -8,11 +6,23 @@ globalstddev =[];
 %filetoread = strcat(currentfilepath, '\', currentfilename);
     
 ptCloud = pcread("./drill/data/drill_1.6mm_0_cyb.ply");
-radius = 0.001;
-
-
+radius = 0.00055;
 
 [uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'man');
+
+
+[uniquevals2, globalstddev2,globalmeanhists2, distances2] = ppfh(ptCloud, 0.00075, 'man');
+
+
+
+[uniquevals3, globalstddev3,globalmeanhists3, distances3] = ppfh(ptCloud, 0.001, 'man');
+
+
+vals1 = get_persistant_features(distances, uniquevals,1.0);
+vals2 = get_persistant_features(distances2, uniquevals2,1.0);
+vals3 = get_persistant_features(distances3, uniquevals3,1.0);
+
+
 
 %uniquevals2 = ppfh(ptCloud, 0.001, 'man');
 

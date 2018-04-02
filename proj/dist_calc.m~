@@ -1,14 +1,19 @@
 function [distsum] = dist_calc(meanhist, pointhist, metrictype)
 %MANHATTEN_DIST Summary of this function goes here
 %   Detailed explanation goes here
+isUnique = false;
 dist = 0;
 dists = zeros(1,16);
+distances =[];
 
+meanmean = mean(meanhist);
+stdstd = std(std_bins);
 if strcmp('man', metrictype)
 
 for n = 1:16
     dist = abs(pointhist(n) - meanhist(n));
     dists(n) = dist;
+    distances = [distances; dists];
  
 end
 

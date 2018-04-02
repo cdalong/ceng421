@@ -50,7 +50,7 @@ globalstddev = [globalstddev; std_bin];
 
 %globalstddev = std(globalstddev);
 
-[uniquePoints, distances] = persistant_values(globalmeanhist,globalstddev,localhistmap, cmptype);
+[uniquePoints, distances] = persistant_values(globalmeanhist,localhistmap, cmptype);
 
 
 end

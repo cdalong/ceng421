@@ -1,0 +1,13 @@
+function [outputArg1,outputArg2] = get_persistant_features(distances,vals, alpha)
+%GET_PERSISTANT_FEATURES Summary of this function goes here
+%   Detailed explanation goes here
+
+meandistance = mean(distances);
+stddevdistances = std(distances);
+
+keySet = vals.
+
+outputArg1 = inputArg1;
+outputArg2 = inputArg2;
+end
+

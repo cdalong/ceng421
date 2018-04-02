@@ -1,7 +1,4 @@
 
-globalmeanhists = [];
-globalstddev =[];
-
 
 %currentfilename = files(clouds).name;    
 %currentfilepath = files(clouds).folder;
@@ -9,16 +6,27 @@ globalstddev =[];
 %filetoread = strcat(currentfilepath, '\', currentfilename);
     
 ptCloud = pcread("./drill/data/drill_1.6mm_0_cyb.ply");
-radius = 0.00075;
+radius = 0.00055;
+[uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'man');
 
-for n = 1:1
 
-uniquevals = ppfh(ptCloud, radius, 'man');
+[uniquevals2, globalstddev2,globalmeanhists2, distances2] = ppfh(ptCloud, 0.00075, 'man');
 
-uniquevals2 = ppfh(ptCloud, 0.001, 'man');
 
-unquevals3  = ppfh(ptCloud, 0.00125, 'man');
-end
+
+[uniquevals3, globalstddev3,globalmeanhists3, distances3] = ppfh(ptCloud, 0.001, 'man');
+
+
+vals1 = get_persistant_features(distances, uniquevals,1.0);
+vals1 = get_persistant_features(distances, uniquevals,1.0);
+vals1 = get_persistant_features(distances, uniquevals,1.0);
+
+
+
+%uniquevals2 = ppfh(ptCloud, 0.001, 'man');
+
+%unquevals3  = ppfh(ptCloud, 0.00125, 'man');
+
 %estimate the surface normals of the point cloud?
 
 %{
