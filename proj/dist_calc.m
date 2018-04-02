@@ -23,30 +23,14 @@ if strcmp('eucl', metrictype)
   for n = 1:16
     
   dist = dist + (pointhist(n) - meanhist(n))^2;
+  dist(n) = dist;
   end
 
+  distsum = sum(dists);
 
-  dist = sqrt(dist);
+  distsum = sqrt(distsum);
 
-  
-for n = 1:16  
-  
-   if dist > meanhist(n) + alpha * std_bins(n) %if the distance is greater than a standard deviation
-       
-       isUnique = false;
-       
-   end
-   
-   if dist < meanhist(n) - alpha * std_bins(n)
-       
-      isUnique = false;    
-   
-   end
-   
-  
-end 
-    
-    
+ 
     
 end
 end

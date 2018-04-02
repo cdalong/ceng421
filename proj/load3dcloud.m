@@ -8,14 +8,14 @@
 ptCloud = pcread("./drill/data/drill_1.6mm_330_cyb.ply");
 radius = 0.00055;
 
-[uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'man');
+[uniquevals, globalstddev,globalmeanhists, distances] = ppfh(ptCloud, radius, 'eucl');
 
 
-[uniquevals2, globalstddev2,globalmeanhists2, distances2] = ppfh(ptCloud, 0.00075, 'man');
+[uniquevals2, globalstddev2,globalmeanhists2, distances2] = ppfh(ptCloud, 0.00075, 'eucl');
 
 
 
-[uniquevals3, globalstddev3,globalmeanhists3, distances3] = ppfh(ptCloud, 0.001, 'man');
+[uniquevals3, globalstddev3,globalmeanhists3, distances3] = ppfh(ptCloud, 0.001, 'eucl');
 
 
 vals1 = get_persistant_features(distances, uniquevals,1.0);
