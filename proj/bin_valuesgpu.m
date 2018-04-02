@@ -19,8 +19,7 @@ for n = 1:length(features)
     f3 = features(n,3);
     f4 = features(n,4);
     catch exception
-        disp(features);
-        disp(exception);
+       continue;
     end
     
     if f1 > sigpu

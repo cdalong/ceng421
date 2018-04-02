@@ -1,6 +1,8 @@
-function [uniquemap] = persistant_values(globalmeanhist,globalstddev,histogrammap, cmptype)
+function [uniquemap, distances] = persistant_values(globalmeanhist,globalstddev,histogrammap, cmptype)
 %PERSISTANT_VALUES Summary of this function goes here
 %   Detailed explanation goes here
+
+disp(histogrammap.keySet());
 keySet = histogrammap.keySet();
 uniquemap = java.util.HashMap();
 alpha = 1;
@@ -8,13 +10,14 @@ alpha = 1;
 
 for point = 1:size(keySet)
     
-    keypointhist = javamap.get(point);
+    keypointhist = histogrammap.get(point);
     
-    isUnique = man_dist(globalmeanhist, globalstddev, keypointhist, alpha, cmptype);
+    [isUnique, distances] = dist_calc(globalmeanhist, globalstddev, keypointhist, alpha, cmptype);
     
-    if isUnique 
+    if isUnique == 1
        
-      uniquemap.put(point, point); 
+      uniquemap.put(point, distances); 
+      
     end
 end
 

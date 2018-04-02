@@ -1,4 +1,4 @@
-function [uniquePoints, globalstddev,globalmeanhist, distances] = ppfh(ptCloud,radius, cmptype)
+function [uniquePoints] = ppfh(ptCloud,radius, cmptype)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,7 +7,8 @@ normals = pcnormals(ptCloud);
 normalsgpu = gpuArray(normals);
 ptCloudgpu = gpuArray(ptCloud.Location);
 avg = gpuArray([]);
-globalstddev = [];
+global globalstddev;
+global globalmeanhist;
 
 for point = 1:ptCloud.Count
     
@@ -40,7 +41,7 @@ end
 end
 %figure;
 avg = gather(avg);
-globalmeanhist = get_mean_hist(avg, "global");
+global globalmeanhist = get_mean_hist(avg, "global");
 
 %globalmeanhists = [globalmeanhists; globalmeanhist];
 
@@ -50,7 +51,7 @@ globalstddev = [globalstddev; std_bin];
 
 %globalstddev = std(globalstddev);
 
-[uniquePoints, distances] = persistant_values(globalmeanhist,globalstddev,localhistmap, cmptype);
+uniquePoints = persistant_values(globalmeanhist,globalstddev,localhistmap, cmptype);
 
 
 end

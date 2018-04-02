@@ -44,7 +44,7 @@ for n = 1:size(combos,1) %returns longest length. if not it errors
     featuresgpu(n, 3) = f3;
     featuresgpu(n, 4) = f4;
     catch error
-        disp(error);
+      continue;
     end
     
 end
